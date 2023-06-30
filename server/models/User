@@ -1,0 +1,28 @@
+const dbConnection = require('../db').db;
+
+class User {
+
+    constructor(name = "jacob", password="root"){
+        this.name = name;
+        this.password = password;
+    }
+
+    static findAllUsers() {
+        
+         const db = dbConnection();
+         return db      
+         .collection("users")
+         .find()
+         .toArray();
+    }
+
+    static findUser(username, password) {
+        const db = dbConnection();
+        return db.collection("users")
+                 .find({name: username, password: password})
+                 .next();
+    }
+
+}
+
+module.exports = User;
