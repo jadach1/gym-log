@@ -1,28 +1,86 @@
-const dbConnection = require('../db').db;
+const dbConnection = require("../db").db;
 
 class User {
+  constructor(name = "jacob", password = "root", level = 1) {
+    this.name = name;
+    this.password = password;
+    this.level = level;
+  }
 
-    constructor(name = "jacob", password="root"){
-        this.name = name;
-        this.password = password;
-    }
+  static findAllUsers() {
+    const db = dbConnection();
+    return db.collection("users").find().toArray();
+  }
 
-    static findAllUsers() {
-        
-         const db = dbConnection();
-         return db      
-         .collection("users")
-         .find()
-         .toArray();
-    }
+  static findUser(username) {
+    const db = dbConnection();
+    return db.collection("users").find({ username: username }).next();
+  }
 
-    static findUser(username, password) {
-        const db = dbConnection();
-        return db.collection("users")
-                 .find({name: username, password: password})
-                 .next();
-    }
+  static async newUser(username, password) {
+    const db = dbConnection();
+    const doc = { username: username, password: password, level: 1 };
+    const result = await db.collection("users").insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+    return result.insertedID;
+  }
 
+  static findUserSession(sessionID) {
+    const db = dbConnection();
+    return db.collection("sessions").find({ _id: sessionID }).next();
+  }
+
+  static logout(sessionID) {
+    const db = dbConnection();
+    return db.collection("sessions").deleteOne({ _id: sessionID });
+  }
+
+  // EXERCISES
+  static async createNewSet(workout) {
+    const db = dbConnection();
+    return await db.collection("exercises").insertOne(workout);
+  }
+
+  static async editSet(workout) {
+    const db = dbConnection();
+    console.log(workout);
+    return await db.collection("exercises").updateOne(
+      { user: workout.user, _id: workout.id },
+      {
+        $set: {
+          bodypart: workout.bodypart,
+          date: workout.date,
+          exercise: workout.exercise,
+          weight: +workout.weight,
+          metric: workout.metric,
+          description: workout.description,
+        },
+      }
+    );
+  }
+  //gets all exercises associated with user.  This is done server side.
+  static async getExercises(query, sortBy) {
+    const db = dbConnection();
+    return await db
+      .collection("exercises")
+      .find(query)
+      .sort(sortBy, -1)
+      .toArray();
+  }
+
+  static async getExerciseById(userId, id) {
+    const db = dbConnection();
+    return await db
+      .collection("exercises")
+      .find({ user: userId, _id: id })
+      .next();
+  }
+
+  static async deleteExercise(id, uid) {
+    const doc = { _id: id };
+    const db = dbConnection();
+    return await db.collection("exercises").deleteOne({ _id: id });
+  }
 }
 
 module.exports = User;

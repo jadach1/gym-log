@@ -18,7 +18,9 @@ async function connect(callback) {
     console.log("ym")
     // Send a ping to confirm a successful connection
     await client.db("gym").command({ ping: 1 });
-    db = client.db('gym');
+    await client.db("gym").collection("users").find({username: "jacob"}).next().then( res => console.log(res)).catch( err => console.log(err));
+   
+    db = client.db("gym");
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
     callback(db);
   } finally {
@@ -29,7 +31,7 @@ async function connect(callback) {
 }
 
 function getDatabase() {
-  if(db){  console.log("found db"); return db;}
+  if(db){  console.log("found db in db.js"); return db;}
   else console.log("could not find db")
 }
 
