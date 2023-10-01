@@ -2,16 +2,13 @@ import  Modal  from "react-bootstrap/Modal";
 import { useState } from "react";
 
 const ConfirmModal = (props) => {
-    const [show, setShow] = useState(true);
-
-    const onClose = () => setShow(false);
     
     return (
-        <Modal show={show} animation={false} >
-            <Modal.Header>{props.header}</Modal.Header>
+        <Modal show={props.show} animation={false} >
+            <Modal.Header>{props.show} Confirm Deletion?</Modal.Header>
             <Modal.Body>
-                <button onClick={props.onClickHandler}>Yes</button>
-                <button onClick={onClose}>No</button>
+                <button onClick={() => props.onConfirm(props.show)}>Yes</button>
+                <button onClick={props.onClose}>No</button>
             </Modal.Body>
         </Modal>
     )

@@ -8,7 +8,8 @@ import ErrorPage from "./Components/Error/Error";
 import Home from "./Components/Main/Home/Home";
 import CreateExerciseForm from "./Components/Main/Home/Form/CreateExerciseForm";
 import ExerciseList from "./Components/Main/Home/List/ExerciseList";
-import EditExerciseForm from "./Components/Main/Home/Form/EditExerciseForm";
+import ToasterContextProvider from "./Components/Context/ToasterContextProvider";
+
 //Bootstrap
 import Container from "react-bootstrap/esm/Container";
 //FontAwesome
@@ -64,7 +65,11 @@ function App() {
   return (
        <Container className="bg-light mt-5 py-5 rounded-5 border border-success justify-content-center">
        <h1 className="text-center text-success ">Gym Everything</h1>
+       <ToasterContextProvider>
        <RouterProvider router={router} />
+      
+         <h3>Toasters</h3> 
+       </ToasterContextProvider>
    </Container>
   );
 }

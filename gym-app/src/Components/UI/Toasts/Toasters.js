@@ -1,14 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Toast from 'react-bootstrap/Toast'
 
-import ToasterContext from '../Context/ToasterContext';
 const Toasters = (props) => {
-    const toastContext = useContext(ToasterContext);
-    
+    const [show, setShow] = useState(true);
     return(
-        <Toast className={`bg-dark text-success`} 
+        <Toast show={show} className={`bg-dark text-success border border-success `} 
         position="middle-centre" 
-        onClose={()=> toastContext.removeMessage(props.id)}  >
+        onClose={ () => {props.onClose(props.id); setShow(false)} }  >
             <Toast.Header>
             {props.header}
             </Toast.Header>
