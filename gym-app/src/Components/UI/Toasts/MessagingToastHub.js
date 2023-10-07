@@ -1,13 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ToastContext } from "../../Context/ToasterContextProvider";
 import Toasters from "./Toasters";
 
 const MessagingToastHub = (props) => {
   const toastContext = useContext(ToastContext);
-
-  useEffect(() => {
-    console.log("new context update", toastContext.data);
-  }, [toastContext]);
 
   return (
     <ul>

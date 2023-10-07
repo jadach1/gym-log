@@ -12,7 +12,7 @@ const CreateExerciseForm = (props) => {
   const submit = useSubmit();
   const toastContext = useContext(ToastContext);
   let actionData = useActionData();
-  console.log(actionData);
+  
   // Form Variables
   const description = useRef();
   const [startDate, setStartDate] = useState(new Date());
@@ -27,7 +27,10 @@ const CreateExerciseForm = (props) => {
   useEffect( () => { 
     if(actionData){
       console.log("called")
-      toastContext.addMessage("11","123"); 
+      toastContext.addMessage("Success","Created New Gainz Bra !"); 
+      console.log(document.getElementById("weight").value)
+      document.getElementById("weight").value = "";
+      document.getElementById("exercise").value = "";
     }
   } ,[actionData])
   

@@ -20,14 +20,12 @@ const ToasterContextProvider = (props) => {
                 return msgs;
             }  );
             setID( (ID) => {console.log(ID); return ID + 1});
-            console.log(messsages, id);
         },
         removeMessage:  (toastId) => {
             console.log("here", toastId, id)
             const index = messsages.findIndex(msg => msg.id === toastId );
             if( index !== -1)
-                setMessages((msgs) => msgs.splice(index,1));
-            console.log(index, actions.data)
+                setMessages((msgs) => {msgs.splice(index,1); return msgs;});
         }
     }
 
