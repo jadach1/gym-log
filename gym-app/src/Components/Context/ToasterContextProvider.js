@@ -1,32 +1,33 @@
-import {  createContext, useEffect} from "react";
+import {  createContext, useEffect, useContext, useState} from "react";
 
 export const ToastContext = createContext()
 
 const ToasterContextProvider = (props) => {
 
-    const arrayOfMessages = [];
-    let id = 0;
+    const [messsages, setMessages] = useState([]);
+    const [id, setID] = useState(0);
     
 
     useEffect( () => {
-        console.log("called", arrayOfMessages)
-    }, [arrayOfMessages])
+        console.log("CHANGE" , messsages)
+    }, [messsages])
 
     const actions = {
-        data: arrayOfMessages,
+        data: messsages,
         addMessage: (title, message) => {
-            arrayOfMessages.push({
-                title: title, message: message, id: id
-            })
-            id+= 1;
+            setMessages( (msgs) => {
+                msgs.push({title: title, message: message, id: id});
+                return msgs;
+            }  );
+            setID( (ID) => {console.log(ID); return ID + 1});
+            console.log(messsages, id);
         },
         removeMessage:  (toastId) => {
             console.log("here", toastId, id)
-            const index = arrayOfMessages.findIndex(msg => msg.id === toastId );
+            const index = messsages.findIndex(msg => msg.id === toastId );
             if( index !== -1)
-                arrayOfMessages.splice(index,1);
+                setMessages((msgs) => msgs.splice(index,1));
             console.log(index, actions.data)
-            actions.data = arrayOfMessages;
         }
     }
 
@@ -37,4 +38,5 @@ const ToasterContextProvider = (props) => {
     )
 }
 
+export const useToastContext = () => useContext(ToastContext);
 export default ToasterContextProvider;

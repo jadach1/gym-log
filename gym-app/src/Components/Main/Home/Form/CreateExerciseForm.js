@@ -1,7 +1,7 @@
 //React Imports
-import { useRef, useState } from "react";
-import { Form, useSubmit,useOutletContext, Navigate } from "react-router-dom";
-
+import { useEffect, useRef, useState, useContext } from "react";
+import { Form, useSubmit, useActionData } from "react-router-dom";
+import { ToastContext } from "../../../Context/ToasterContextProvider";
 //App Components
 import Input from "../../../UI/Input";
 import SelectionList from "./SelectionList";
@@ -9,9 +9,10 @@ import Container from "react-bootstrap/esm/Container";
 import DateSelector from "../../../UI/DateSelector";
 
 const CreateExerciseForm = (props) => {
-  const flip = useOutletContext();
   const submit = useSubmit();
-
+  const toastContext = useContext(ToastContext);
+  let actionData = useActionData();
+  console.log(actionData);
   // Form Variables
   const description = useRef();
   const [startDate, setStartDate] = useState(new Date());
@@ -22,6 +23,14 @@ const CreateExerciseForm = (props) => {
     submit(document.getElementById('form'));
   }
 
+  //Listening for Successful Submissions
+  useEffect( () => { 
+    if(actionData){
+      console.log("called")
+      toastContext.addMessage("11","123"); 
+    }
+  } ,[actionData])
+  
   return (
     <Container className="border border-success p-3 rounded-3">
       {/*!flip && <Navigate to="../" />*/}

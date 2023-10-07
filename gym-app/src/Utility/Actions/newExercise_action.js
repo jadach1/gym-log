@@ -30,7 +30,7 @@ export async function action({request}) {
 
     if(!response.ok || response.status===422)
         throw json({error: "Error server side.  Could not add new Exercise"})
-    return response.ok;
+    return data;
     } catch (error) {
         throw new Response("Oops, there was a problem",{statusText: error, status: 422});
     }

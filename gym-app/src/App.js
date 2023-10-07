@@ -29,6 +29,7 @@ import { editExerciseAction } from "./Utility/Actions/editExerciseAction";
 //Styles
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import MessagingToastHub from "./Components/UI/Toasts/MessagingToastHub";
 
 
 
@@ -66,9 +67,9 @@ function App() {
        <Container className="bg-light mt-5 py-5 rounded-5 border border-success justify-content-center">
        <h1 className="text-center text-success ">Gym Everything</h1>
        <ToasterContextProvider>
-       <RouterProvider router={router} />
-      
-         <h3>Toasters</h3> 
+        <MessagingToastHub />
+        <RouterProvider router={router} />
+          <h3>Toasters</h3> 
        </ToasterContextProvider>
    </Container>
   );

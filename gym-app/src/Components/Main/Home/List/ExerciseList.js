@@ -14,7 +14,6 @@ import EditFormModal from "../Form/EditFormModal";
 import ConfirmModal from "../../../UI/ConfirmModal";
 //app Context
 import {ToastContext} from "../../../Context/ToasterContextProvider";
-import MessagingToastHub from "../../../UI/Toasts/MessagingToastHub"
 
 // We receive data stored in variable data which holds DB values of exercises
 const ExerciseList = (props) => {
@@ -54,7 +53,6 @@ const ExerciseList = (props) => {
         </div>
       </Container>
       <EditFormModal  exercise={myExercise} animation={true} show={editModalShow} onHide={() => setEditModalShow(false)} />
-      <MessagingToastHub />
       <ConfirmModal   show={confirmModalShow} onConfirm={onConfirmToDelete} onClose={() => {setConfirmModalShow(false)}}/>
       <Container>
         {
@@ -67,10 +65,7 @@ const ExerciseList = (props) => {
                       <span className="d-flex justify-content-end">
                         {/*First icon is for deletion*/}
                         <CustomIcon
-                          onClick={() => {
-                                 setConfirmModalShow(exercise._id);
-                                 console.log(confirmModalShow)
-                          }}
+                          onClick={() => {setConfirmModalShow(exercise._id);}}
                           icon="delete"
                           size="xs"
                         />
