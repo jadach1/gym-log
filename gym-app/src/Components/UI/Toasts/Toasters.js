@@ -1,20 +1,24 @@
-import { useState } from 'react';
-import Toast from 'react-bootstrap/Toast'
+import { useState } from "react";
+import Toast from "react-bootstrap/Toast";
 
 const Toasters = (props) => {
-    const [show, setShow] = useState(true);
-    return(
-        <Toast show={show} className={`bg-dark text-success border border-success `} 
-        position="middle-centre" 
-        onClose={ () => {props.onClose(props.id); setShow(false)} }  >
-            <Toast.Header>
-            {props.header}
-            </Toast.Header>
-            <Toast.Body>
-            {props.message}
-            </Toast.Body>
-        </Toast>
-    )
-}
+  const [show, setShow] = useState(true);
+  const bg = props.header === "Success" ? "bg-warning" : "bg-danger";
+  return (
+      <Toast
+        show={show}
+        delay={3000}
+        autohide
+        className={`bg-light text-success border border-success my-2`}
+        onClose={() => {
+          props.onClose(props.id);
+          setShow(false);
+        }}
+      >
+        <Toast.Header className={`${bg} text-dark`} ><strong>{props.header}</strong></Toast.Header>
+        <Toast.Body className="bg-light "><strong>{props.message}</strong></Toast.Body>
+      </Toast>
+  );
+};
 
 export default Toasters;

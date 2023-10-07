@@ -1,5 +1,5 @@
 //React
-import { useContext, useEffect, useState } from "react";
+import { useContext,  useState } from "react";
 // React Router
 import { useLoaderData, Form} from "react-router-dom";
 //Bootstrap
@@ -34,7 +34,7 @@ const ExerciseList = (props) => {
       );
     data.splice(index, 1)
     console.log(toastContext)
-    toastContext.addMessage("Success","Successfully Deleted Exercise")
+    toastContext.addMessage("Removed","Successfully Deleted Exercise")
     /*Updating the list of exercises causes the page to render, updating our changes to data */
     setExercises(Array.from(new Set(data.map(e => e.exercise ))));
     setConfirmModalShow(false);

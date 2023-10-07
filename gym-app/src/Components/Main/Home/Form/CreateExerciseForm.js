@@ -1,6 +1,6 @@
 //React Imports
 import { useEffect, useRef, useState, useContext } from "react";
-import { Form, useSubmit, useActionData } from "react-router-dom";
+import { Form, useSubmit, useActionData, useNavigation } from "react-router-dom";
 import { ToastContext } from "../../../Context/ToasterContextProvider";
 //App Components
 import Input from "../../../UI/Input";
@@ -12,7 +12,8 @@ const CreateExerciseForm = (props) => {
   const submit = useSubmit();
   const toastContext = useContext(ToastContext);
   let actionData = useActionData();
-  
+  const navigate = useNavigation();
+
   // Form Variables
   const description = useRef();
   const [startDate, setStartDate] = useState(new Date());
@@ -26,9 +27,7 @@ const CreateExerciseForm = (props) => {
   //Listening for Successful Submissions
   useEffect( () => { 
     if(actionData){
-      console.log("called")
       toastContext.addMessage("Success","Created New Gainz Bra !"); 
-      console.log(document.getElementById("weight").value)
       document.getElementById("weight").value = "";
       document.getElementById("exercise").value = "";
     }
@@ -96,7 +95,7 @@ const CreateExerciseForm = (props) => {
         </div>
 
         <div className="col my-3 text-center">
-            <button onClick={onSubmitHandler} className="btn w-50 btn-success">Submit</button>
+            <button disabled={navigate.state === "submitting"} onClick={onSubmitHandler} className="btn w-50 btn-success">Submit</button>
         </div>
 
       </Form>
