@@ -16,11 +16,18 @@ const CreateExerciseForm = (props) => {
 
   // Form Variables
   const description = useRef();
+  const exercise = useRef();
+  const [errorExerciseMessage, setMsgExercise] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
 
   // Submission HAndler
   const onSubmitHandler = (event) => { 
     event.preventDefault();
+    if(exercise === "")
+      setMsgExercise(" you need to enter an Exercise.")
+    else
+      setMsgExercise(false);
+  
     submit(document.getElementById('form'));
   }
 
@@ -62,6 +69,7 @@ const CreateExerciseForm = (props) => {
               required: true,
             }}
           />
+          {errorExerciseMessage && <div><p className="text-danger lead">Error {errorExerciseMessage}</p></div>}
         </div>
 
         {/* WEIGHT */}
