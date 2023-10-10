@@ -1,12 +1,20 @@
 //React Imports
 import { useEffect, useRef, useState, useContext } from "react";
-import { Form, useSubmit, useActionData, useNavigation } from "react-router-dom";
+import {
+  Form,
+  useSubmit,
+  useActionData,
+  useNavigation,
+  useFetcher,
+} from "react-router-dom";
 import { ToastContext } from "../../../Context/ToasterContextProvider";
 //App Components
 import Input from "../../../UI/Input";
 import SelectionList from "./SelectionList";
 import Container from "react-bootstrap/esm/Container";
 import DateSelector from "../../../UI/DateSelector";
+import useSubmitFormCheck from "./Hook/use-input";
+import useInput from "./Hook/use-input";
 
 const CreateExerciseForm = (props) => {
   const submit = useSubmit();
@@ -16,38 +24,43 @@ const CreateExerciseForm = (props) => {
 
   // Form Variables
   const description = useRef();
-  const exercise = useRef();
-  const [errorExerciseMessage, setMsgExercise] = useState(false);
+  // const exercise    = useRef();
+  // const weight      = useRef();
+
+  //const [exercise, setExercise] = useState("");
   const [startDate, setStartDate] = useState(new Date());
+  //const {errorMessageExercise, errorMessageWeight, isValid} = useSubmitFormCheck(exercise);
+  const {
+    value: exercise,
+    isValid: isValidEx,
+    error: errorEx,
+    onBlurHandler: onBlurHandlerEx,
+    onChangeHandler: onChangeHandlerEx,
+  } = useInput();
 
   // Submission HAndler
-  const onSubmitHandler = (event) => { 
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    if(exercise === "")
-      setMsgExercise(" you need to enter an Exercise.")
-    else
-      setMsgExercise(false);
-  
-    submit(document.getElementById('form'));
-  }
+    submit(document.getElementById("form"));
+  };
 
   //Listening for Successful Submissions
-  useEffect( () => { 
-    if(actionData){
-      toastContext.addMessage("Success","Created New Gainz Bra !"); 
+  useEffect(() => {
+    if (actionData) {
+      toastContext.addMessage("Success", "Created New Gainz Bra !");
       document.getElementById("weight").value = "";
       document.getElementById("exercise").value = "";
     }
-  } ,[actionData])
-  
+  }, [actionData]);
+
   return (
     <Container className="border border-success p-3 rounded-3">
-      {/*!flip && <Navigate to="../" />*/}
+    
       <h3 className="text-success text-center">New Work Out</h3>
       <Form method="post" id="form">
         {/**BODY PART SELECT DROPDOWN */}
         <SelectionList
-          onChangeHandler={(event)=>{}}
+          onChangeHandler={(event) => {}}
           className="my-3"
           label="Body Part"
           name="body-part"
@@ -55,21 +68,27 @@ const CreateExerciseForm = (props) => {
         />
 
         {/* DATE */}
-       <DateSelector name="date" onChangeHandler={(date) => setStartDate(date)} startDate={startDate}/>
+        <DateSelector
+          name="date"
+          onChangeHandler={(date) => setStartDate(date)}
+          startDate={startDate}
+        />
 
         {/* EXERCISE */}
         <div className="row my-3">
           <label className="text-white">Exercise</label>
           <Input
-            className="mt-2 text-white"
+            className="mt-2 text-dark"
+            onBlurHandler={onBlurHandlerEx}
+            onChangeHandler={onChangeHandlerEx}
+            error={errorEx}
             input={{
               type: "text",
               name: "exercise",
               id: "exercise",
-              required: true,
+              value: exercise,
             }}
           />
-          {errorExerciseMessage && <div><p className="text-danger lead">Error {errorExerciseMessage}</p></div>}
         </div>
 
         {/* WEIGHT */}
@@ -81,6 +100,7 @@ const CreateExerciseForm = (props) => {
               type: "number",
               name: "weight",
               id: "weight",
+              value: "",
             }}
           />
         </div>
@@ -88,7 +108,7 @@ const CreateExerciseForm = (props) => {
         {/**METRIC */}
         <div className="row my-3">
           <label className="text-white">Metric</label>
-          <SelectionList name="metric" values={["KG", "LB"]}  />
+          <SelectionList name="metric" values={["KG", "LB"]} />
         </div>
 
         {/* DESCRIPTION */}
@@ -103,9 +123,14 @@ const CreateExerciseForm = (props) => {
         </div>
 
         <div className="col my-3 text-center">
-            <button disabled={navigate.state === "submitting"} onClick={onSubmitHandler} className="btn w-50 btn-success">Submit</button>
+          <button
+            disabled={navigate.state === "submitting" || !isValidEx}
+            onClick={onSubmitHandler}
+            className="btn w-50 btn-success"
+          >
+            Submit
+          </button>
         </div>
-
       </Form>
     </Container>
   );
