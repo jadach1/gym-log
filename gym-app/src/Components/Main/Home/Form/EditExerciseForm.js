@@ -10,15 +10,30 @@ import Input from "../../../UI/Input";
 import SelectionList from "./SelectionList";
 import Container from "react-bootstrap/esm/Container";
 import DateSelector from "../../../UI/DateSelector";
+import useInput from "./Hook/use-input"
+
 
 const EditExerciseForm = (props) => {
   const submit = useSubmit();
-  const exercise = useRef();
-  const description = useRef();
   
-  const exerciseChangeHandler = (event) => {
+  const {    
+    value: exercise,
+    isValid: isValidEx,
+    error: errorEx,
+    onBlurHandler: onBlurHandlerEx,
+    onChangeHandler: onChangeHandlerEx,
+    reset: clearExercise
+  } = useInput(props.exercise.exercise);
 
-  }
+    const {
+    value: weight,
+    isValid: isValidWe,
+    error: errorWe,
+    onBlurHandler: onBlurHandlerWe,
+    onChangeHandler: onChangeHandlerWe,
+    reset: clearWeight
+  } = useInput(props.exercise.weight);
+
 
   useEffect( () => {
     console.log("Data has changed")
@@ -59,12 +74,16 @@ const EditExerciseForm = (props) => {
         <div className="row my-3">
           <label className="text-white">Exercise</label>
           <Input
-            className="mt-2 text-white"
+            className="mt-2 text-dark"
+             onChangeHandler={onChangeHandlerEx}
+            onBlurHandler={onBlurHandlerEx}
+            error={errorEx}
             input={{
               type: "text",
               name: "exercise",
               id: "exercise",
               required: true,
+              value: exercise,
               defaultValue: props.exercise.exercise
             }}
           />
@@ -74,12 +93,15 @@ const EditExerciseForm = (props) => {
         <div className="row">
           <label className="text-white">Weight</label>
           <Input
-            className="mt-2 text-white"
+            className="mt-2 text-dark"
+             onChangeHandler={onChangeHandlerWe}
+            onBlurHandler={onBlurHandlerWe}
+            error={errorWe}
             input={{
               type: "number",
               name: "weight",
               id: "weight",
-              defaultValue: props.exercise.weight
+              value: weight
             }}
           />
         </div>
@@ -99,7 +121,7 @@ const EditExerciseForm = (props) => {
           <input readOnly hidden name="id" value={props.exercise._id} />
           <input readOnly hidden name="user" value={props.exercise.user} />
         <div className="col my-3 text-center">
-          <button onClick={onSubmitHandler} className="btn w-50 btn-success">
+          <button disabled={!isValidEx || !isValidWe} onClick={onSubmitHandler} className="btn w-50 btn-success">
             Submit
           </button>
         </div>
