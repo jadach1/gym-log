@@ -4,9 +4,9 @@ import { useState } from "react";
   This works with an Input field.
   Spits out some validation and handles the state of data being typed in
 */
-const useInput = () => {
+const useInput = (defaultValue) => {
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue);
   const [isTouched, setTouched] = useState(false);
   const [isValid, setValid] = useState(false);
   const [error, setError] = useState(false);
