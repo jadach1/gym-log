@@ -30,7 +30,7 @@ const CreateExerciseForm = (props) => {
     onBlurHandler: onBlurHandlerEx,
     onChangeHandler: onChangeHandlerEx,
     reset: clearExercise
-  } = useInput();
+  } = useInput("");
 
     const {
     value: weight,
@@ -39,7 +39,7 @@ const CreateExerciseForm = (props) => {
     onBlurHandler: onBlurHandlerWe,
     onChangeHandler: onChangeHandlerWe,
     reset: clearWeight
-  } = useInput();
+  } = useInput("");
 
   // Submission HAndler
   const onSubmitHandler = (event) => {
