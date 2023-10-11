@@ -4,9 +4,9 @@ import { useState } from "react";
   This works with an Input field.
   Spits out some validation and handles the state of data being typed in
 */
-const useInput = () => {
+const useInput = (defaultValue) => {
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue);
   const [isTouched, setTouched] = useState(false);
   const [isValid, setValid] = useState(false);
   const [error, setError] = useState(false);
@@ -28,35 +28,18 @@ const useInput = () => {
           setError(false)
     }
 
+  const reset = () => {
+    setValue("");
+  }
+
   return {
     value,
     isValid,
     error,
     onBlurHandler,
-    onChangeHandler
+    onChangeHandler,
+    reset
   };
 };
 
 export default useInput;
-
-// const useSubmitFormCheck = (exercise, weight) => {
-//   const [errorMessageExercise, setErrorEx] = useState(false);
-//   const [errorMessageWeight, setErrorWe] = useState(false);
-//   const [isValid, setValidity] = useState(false);
-
-//   exercise === ""
-//     ? setErrorEx("Please Enter A Valid Exercise")
-//     : setErrorEx(false);
-//   weight === "" ? setErrorWe("Please Enter A Valid Weight") : setErrorWe(false);
-
-//   if (errorMessageExercise || errorMessageWeight) setValidity(false);
-//   else setValidity(true);
-
-//   return {
-//     errorMessageExercise,
-//     errorMessageWeight,
-//     isValid,
-//   };
-// };
-
-// export default useSubmitFormCheck;
