@@ -5,7 +5,6 @@ import {
   useSubmit,
   useActionData,
   useNavigation,
-  useFetcher,
 } from "react-router-dom";
 import { ToastContext } from "../../../Context/ToasterContextProvider";
 //App Components
@@ -13,7 +12,6 @@ import Input from "../../../UI/Input";
 import SelectionList from "./SelectionList";
 import Container from "react-bootstrap/esm/Container";
 import DateSelector from "../../../UI/DateSelector";
-import useSubmitFormCheck from "./Hook/use-input";
 import useInput from "./Hook/use-input";
 
 const CreateExerciseForm = (props) => {
@@ -23,19 +21,24 @@ const CreateExerciseForm = (props) => {
   const navigate = useNavigation();
 
   // Form Variables
-  const description = useRef();
-  // const exercise    = useRef();
-  // const weight      = useRef();
-
-  //const [exercise, setExercise] = useState("");
   const [startDate, setStartDate] = useState(new Date());
-  //const {errorMessageExercise, errorMessageWeight, isValid} = useSubmitFormCheck(exercise);
+  
   const {
     value: exercise,
     isValid: isValidEx,
     error: errorEx,
     onBlurHandler: onBlurHandlerEx,
     onChangeHandler: onChangeHandlerEx,
+    reset: clearExercise
+  } = useInput();
+
+    const {
+    value: weight,
+    isValid: isValidWe,
+    error: errorWe,
+    onBlurHandler: onBlurHandlerWe,
+    onChangeHandler: onChangeHandlerWe,
+    reset: clearWeight
   } = useInput();
 
   // Submission HAndler
@@ -48,8 +51,8 @@ const CreateExerciseForm = (props) => {
   useEffect(() => {
     if (actionData) {
       toastContext.addMessage("Success", "Created New Gainz Bra !");
-      document.getElementById("weight").value = "";
-      document.getElementById("exercise").value = "";
+       clearWeight();
+       clearExercise();
     }
   }, [actionData]);
 
@@ -95,12 +98,15 @@ const CreateExerciseForm = (props) => {
         <div className="row">
           <label className="text-white">Weight</label>
           <Input
-            className="mt-2 text-white"
+            className="mt-2 text-dark"
+            onBlurHandler={onBlurHandlerWe}
+            onChangeHandler={onChangeHandlerWe}
+            error={errorWe}
             input={{
               type: "number",
               name: "weight",
               id: "weight",
-              value: "",
+              value: {weight},
             }}
           />
         </div>
@@ -115,8 +121,7 @@ const CreateExerciseForm = (props) => {
         <div className="row">
           <label className="text-white">Description</label>
           <textarea
-            className=" "
-            ref={description}
+            className=""
             name="description"
             placeholder="Gains made"
           />
@@ -124,7 +129,7 @@ const CreateExerciseForm = (props) => {
 
         <div className="col my-3 text-center">
           <button
-            disabled={navigate.state === "submitting" || !isValidEx}
+            disabled={navigate.state === "submitting" || !isValidEx || !isValidWe}
             onClick={onSubmitHandler}
             className="btn w-50 btn-success"
           >
