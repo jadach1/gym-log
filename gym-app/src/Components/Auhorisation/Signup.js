@@ -58,7 +58,6 @@ const Signup = (props) => {
       } else {
         setError(true)
         setFormValid(false)
-        setError(true)
         setErrorMessage(actionData.error);
       }
     }

@@ -1,11 +1,12 @@
 //React Packages
-import { useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import {
   Form,
   Link,
   useSubmit,
   useActionData,
   useNavigation,
+  useNavigate,
 } from "react-router-dom";
 
 //Bootstrap
@@ -14,16 +15,20 @@ import Container from "react-bootstrap/esm/Container";
 //Components
 import Input from "../UI/Input";
 import ErrorMessage from "../UI/ErrorMessage";
-import BoxToast from "../Toasters/BoxToast";
-import CustomIcon from '../../Utility/Icons/CustomIcon'
+import CustomIcon from "../../Utility/Icons/CustomIcon";
+import { ToastContext } from "../Context/ToasterContextProvider";
 
 const Login = (props) => {
+  
   const [formValid, setFormValid] = useState(false);
   const [isError, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const submit = useSubmit();
   const actionData = useActionData();
   const navigation = useNavigation();
+  const navigate = useNavigate();
+  const toastContext = useContext(ToastContext);
 
   const name = useRef();
   const pword = useRef();
@@ -39,14 +44,29 @@ const Login = (props) => {
     } else {
       setFormValid(true);
     }
-
     submit(event.currentTarget);
-    //If we receive data back from the action authentication has failed
-    if (actionData) setError(true);
   };
 
-   //Resets Form whenever user goes back into an input field
-   const onBlurHandler = () => {
+  useEffect(() => {
+    if (actionData) {
+      console.log(actionData);
+      if (actionData.status === "success") {
+        toastContext.addMessage(
+          "Success",
+          "Successfully Signed Up " + name.current.value,
+          "success"
+        );
+        navigate("/");
+      } else {
+        setError(true);
+        setFormValid(false);
+        setErrorMessage(actionData.error);
+      }
+    }
+  }, [actionData]);
+
+  //Resets Form whenever user goes back into an input field
+  const onBlurHandler = () => {
     setError(false);
   };
 
@@ -89,7 +109,7 @@ const Login = (props) => {
           {isError && (
             <ErrorMessage
               className="my-2 rounded 3"
-              error={`Error ${actionData}`}
+              error={`Error ${errorMessage}`}
             />
           )}
         </div>
@@ -102,19 +122,17 @@ const Login = (props) => {
             Submit
           </button>
         </div>
-        {/*ERROR MESSAGE */}
-        {formValid && <p>Success</p>}
       </Form>
     </>
   );
 
- 
-
   return (
     <Container className="text-center">
       {/*LINK TO SIGN UP */}
-      {navigation.state !== 'submitting' && form}
-      {navigation.state === 'submitting' && <CustomIcon icon='faSpinner' size='2xl' spin={true} />}
+      {navigation.state !== "submitting" && form}
+      {navigation.state === "submitting" && (
+        <CustomIcon icon="faSpinner" size="2xl" spin={true} />
+      )}
     </Container>
   );
 };

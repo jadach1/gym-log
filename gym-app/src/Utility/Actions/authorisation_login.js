@@ -1,5 +1,4 @@
 //React Pacakges
-import { json, redirect } from "react-router-dom";
 import { api_url } from "../API";
 
 //Utility Function
@@ -7,17 +6,16 @@ import {createSessionLocal} from '../sessionMgmt';
 
 //Code
 export async function action({ request }) {
-  const searchParams = new URL(request.url).searchParams;
 
   const data = await request.formData();
-
+  
   //Pull request data from form object
   const eventData = {
-    username: data.get("username"),
-    password: data.get("password"),
-  };
- 
-  // searchParams.forEach( e => console.log(e))
+    username: data.get("username") || "",
+    password: data.get("password") || "",
+    confirmPassword: data.get("confirmPassword") || "",
+  }; 
+  
   try {
     // // Attempt to fetch the data from backend server
     const response = await fetch(api_url + "/login", {
@@ -34,11 +32,10 @@ export async function action({ request }) {
       throw re.error;
     // Set local storage for username, level and expiration after successful login
     createSessionLocal(re.username,re.level);
-    return redirect("/home");
+    return {status: "success"};
 
   } catch (err) {
-    return err;
+    return {status: "error", error: err};
   }
 
- 
 }
