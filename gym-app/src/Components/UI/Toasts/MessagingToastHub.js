@@ -12,6 +12,7 @@ const MessagingToastHub = (props) => {
           return (
             <Toasters
               key={toast.id}
+              colour={toast.colour}
               message={toast.message}
               header={toast.title}
               id={toast.id}

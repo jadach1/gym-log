@@ -69,7 +69,6 @@ function App() {
        <ToasterContextProvider>
         <MessagingToastHub />
         <RouterProvider router={router} />
-          <h3>Toasters</h3> 
        </ToasterContextProvider>
    </Container>
   );

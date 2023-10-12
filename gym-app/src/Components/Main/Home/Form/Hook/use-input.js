@@ -29,6 +29,8 @@ const useInput = (defaultValue) => {
     }
 
   const reset = () => {
+    setTouched(false)
+    setValid(false)
     setValue("");
   }
 

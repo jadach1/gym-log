@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
-import { Form, useSubmit, Link, useActionData } from "react-router-dom";
+//React
+import { useContext, useEffect, useRef, useState } from "react";
+import { Form, useSubmit, Link, useActionData, useNavigate } from "react-router-dom";
 
 //Bootstrap
 import Container from "react-bootstrap/esm/Container";
@@ -7,13 +8,18 @@ import Container from "react-bootstrap/esm/Container";
 //Component
 import Input from "../UI/Input";
 import ErrorMessage from "../UI/ErrorMessage";
+import {ToastContext} from "../Context/ToasterContextProvider";
 
 const Signup = (props) => {
   const [formValid, setFormValid] = useState(false);
   const [isError, setError] = useState(false);
 
+  // Form Submission
   const submit = useSubmit();
+  const navigate = useNavigate();
   const actionData = useActionData();
+  const [errorMessage, setErrorMessage] = useState("");
+  const toastContext = useContext(ToastContext);
 
   const name = useRef();
   const pword = useRef();
@@ -24,6 +30,7 @@ const Signup = (props) => {
     setError(false);
   };
 
+  // Validation done by action handler
   const onSubmit = async (event) => {
     event.preventDefault();
     const username = name.current.value;
@@ -31,7 +38,7 @@ const Signup = (props) => {
     const cpassword = pword.current.value;
 
     // Check to see if form is valid
-    if (username.trim().length === 0 || password.trim().length === 0) {
+    if (username.trim().length === 0 || password.trim().length === 0 ) {
       setFormValid(false);
     } else {
       setFormValid(true);
@@ -39,8 +46,23 @@ const Signup = (props) => {
 
     submit(event.currentTarget);
     //If we receive data back from the action authentication has failed
-    if (actionData) setError(true);
   };
+
+  useEffect( () => {
+    
+    if(actionData){
+      console.log(actionData)
+      if(actionData.status==="success"){
+        toastContext.addMessage("Success","Successfully Signed Up " + name.current.value, "success")
+        navigate("/login");
+      } else {
+        setError(true)
+        setFormValid(false)
+        setError(true)
+        setErrorMessage(actionData.error);
+      }
+    }
+  }, [actionData])
 
   return (
     <Container className="">
@@ -94,21 +116,20 @@ const Signup = (props) => {
           {isError && (
             <ErrorMessage
               className="my-2 rounded 3"
-              error={`Error ${actionData}`}
+              error={`Error ${errorMessage}`}
             />
           )}
         </div>
          {/*FORM SUBMISSION BUTTON */}
         <div>
           <button
+            disabled={isError}
             className="mt-2 rounded-4 btn btn-outline-success"
             onClick={onSubmit}
           >
             Submit
           </button>
         </div>
-         {/*ERROR MESSAGE */}
-        {formValid && <p>Success</p>}
       </Form>
     </Container>
   );

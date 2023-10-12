@@ -1,4 +1,4 @@
-export function quotes() {
+export function randomQuotes() {
     const array = [
     "LIFE HAS ITS UPS AND DOWNS. WE CALL THEM SQUATS.",
     "UNLESS YOU PUKE, FAINT, OR DIE, KEEP GOING!",
@@ -10,4 +10,8 @@ export function quotes() {
     "LIGHTWEIGHT BABY",
     "LET'S HAVE A MOMENT OF SILENCE FOR ALL THOSE WHO ARE STUCK IN TRAFFIC ON THEIR WAY TO THE GYM TO RIDE THE STATIONARY BIKE",
 ]
+
+  const index = Math.floor(Math.random() * array.length);
+
+  return array[index];
 }

@@ -115,7 +115,6 @@ const Login = (props) => {
       {/*LINK TO SIGN UP */}
       {navigation.state !== 'submitting' && form}
       {navigation.state === 'submitting' && <CustomIcon icon='faSpinner' size='2xl' spin={true} />}
-      <BoxToast />
     </Container>
   );
 };

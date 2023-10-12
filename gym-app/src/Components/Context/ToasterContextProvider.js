@@ -14,15 +14,14 @@ const ToasterContextProvider = (props) => {
 
     const actions = {
         data: messsages,
-        addMessage: (title, message) => {
+        addMessage: (title, message, colour) => {
             setMessages( (msgs) => {
-                msgs.push({title: title, message: message, id: id});
+                msgs.push({title: title, message: message, id: id, colour: colour});
                 return msgs;
             }  );
             setID( (ID) => {console.log(ID); return ID + 1});
         },
         removeMessage:  (toastId) => {
-            console.log("here", toastId, id)
             const index = messsages.findIndex(msg => msg.id === toastId );
             if( index !== -1)
                 setMessages((msgs) => {msgs.splice(index,1); return msgs;});

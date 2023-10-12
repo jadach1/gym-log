@@ -25,16 +25,16 @@ const ExerciseList = (props) => {
   const [confirmModalShow,setConfirmModalShow] = useState(false);
   const [listOfExercises, setExercises] = useState(Array.from(new Set(data.map(e => e.exercise))))
 
-  // We -1 here because index of 0 is eq to false.  Hence will not call modal when first item in array is selected
+  //Delete Item from setOfExercises
   const onConfirmToDelete = (id) => {
+    //API call
     DeleteItem(id);
-      /*Find the index in the data array and remove it*/
+      /*Find the index in the local data array and remove it*/
       const index = data.findIndex(
         (element) => element._id === id
       );
     data.splice(index, 1)
-    console.log(toastContext)
-    toastContext.addMessage("Removed","Successfully Deleted Exercise")
+    toastContext.addMessage("Removed","Successfully Deleted Exercise","danger")
     /*Updating the list of exercises causes the page to render, updating our changes to data */
     setExercises(Array.from(new Set(data.map(e => e.exercise ))));
     setConfirmModalShow(false);

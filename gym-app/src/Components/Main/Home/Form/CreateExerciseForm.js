@@ -13,7 +13,8 @@ import SelectionList from "./SelectionList";
 import Container from "react-bootstrap/esm/Container";
 import DateSelector from "../../../UI/DateSelector";
 import useInput from "./Hook/use-input";
-
+import { randomQuotes } from "../../../UI/Toasts/quotes";
+import { randomColours } from "../../../UI/Toasts/randomColours";
 const CreateExerciseForm = (props) => {
   const submit = useSubmit();
   const toastContext = useContext(ToastContext);
@@ -50,7 +51,9 @@ const CreateExerciseForm = (props) => {
   //Listening for Successful Submissions
   useEffect(() => {
     if (actionData) {
-      toastContext.addMessage("Success", "Created New Gainz Bra !");
+      const message = randomQuotes();
+      const colour = randomColours();
+      toastContext.addMessage("Success", message, colour);
        clearWeight();
        clearExercise();
     }
@@ -106,7 +109,7 @@ const CreateExerciseForm = (props) => {
               type: "number",
               name: "weight",
               id: "weight",
-              value: {weight},
+              value: weight,
             }}
           />
         </div>

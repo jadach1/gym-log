@@ -13,16 +13,15 @@ export async function action({ request }) {
 
   /*INPUT VALIDATION */
   if(eventData.confirmPassword !== eventData.password)
-    return "Passwords do much match.  Come on, you're better than this."
+    return {status: "error", error: "Passwords do much match.  Come on, you're better than this."}
   
     //Check to see if password is at least 6 characters long and includes a number
   const regex = /[\s]/g;
   const found = eventData.password.search(regex);
-  console.log(found)
   if(found !== -1)
-    return "Password cannot have white spaces."
+    return {status: "error" , error: "Password cannot have white spaces."}
   if(eventData.password.length < 6)
-    return "Password must be longer than 6 characters"
+    return {status: "error", error: "Password must be longer than 6 characters"}
 
   /*SERVER CALL */
   try {
@@ -37,9 +36,8 @@ export async function action({ request }) {
     if(!response.ok || response.status === 422)
       throw re.error;
 
-    alert("successfully signed up now log in");
-    return redirect('/login');  
+    return {status: "success"};  
   } catch (err) {
-     return err;
+     return {status: "error", error: err};
   }
 }

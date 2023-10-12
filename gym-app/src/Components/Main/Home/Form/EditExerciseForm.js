@@ -83,8 +83,7 @@ const EditExerciseForm = (props) => {
               name: "exercise",
               id: "exercise",
               required: true,
-              value: exercise,
-              defaultValue: props.exercise.exercise
+              value: exercise
             }}
           />
         </div>
