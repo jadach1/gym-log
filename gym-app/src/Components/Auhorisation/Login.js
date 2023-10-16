@@ -1,5 +1,5 @@
 //React Packages
-import { useContext, useRef, useState, useEffect } from "react";
+import {  useRef, useState, useEffect } from "react";
 import {
   Form,
   Link,
@@ -16,7 +16,6 @@ import Container from "react-bootstrap/esm/Container";
 import Input from "../UI/Input";
 import ErrorMessage from "../UI/ErrorMessage";
 import CustomIcon from "../../Utility/Icons/CustomIcon";
-import { ToastContext } from "../Context/ToasterContextProvider";
 
 const Login = (props) => {
   
@@ -28,7 +27,6 @@ const Login = (props) => {
   const actionData = useActionData();
   const navigation = useNavigation();
   const navigate = useNavigate();
-  const toastContext = useContext(ToastContext);
 
   const name = useRef();
   const pword = useRef();
@@ -51,11 +49,6 @@ const Login = (props) => {
     if (actionData) {
       console.log(actionData);
       if (actionData.status === "success") {
-        toastContext.addMessage(
-          "Success",
-          "Successfully Signed Up " + name.current.value,
-          "success"
-        );
         navigate("/");
       } else {
         setError(true);

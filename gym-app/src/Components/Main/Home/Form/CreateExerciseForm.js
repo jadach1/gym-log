@@ -15,6 +15,7 @@ import DateSelector from "../../../UI/DateSelector";
 import useInput from "./Hook/use-input";
 import { randomQuotes } from "../../../UI/Toasts/quotes";
 import { randomColours } from "../../../UI/Toasts/randomColours";
+
 const CreateExerciseForm = (props) => {
   const submit = useSubmit();
   const toastContext = useContext(ToastContext);
@@ -42,6 +43,15 @@ const CreateExerciseForm = (props) => {
     reset: clearWeight
   } = useInput("");
 
+  const {
+    value: description,
+    isValid: isValidDesc,
+    error: errorDesc,
+    onBlurHandler: onBlurHandlerDesc,
+    onChangeHandler: onChangeHandlerDesc,
+    reset: clearDescription
+  } = useInput("");
+
   // Submission HAndler
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -56,6 +66,7 @@ const CreateExerciseForm = (props) => {
       toastContext.addMessage("Success", message, colour);
        clearWeight();
        clearExercise();
+       clearDescription();
     }
   }, [actionData]);
 
@@ -126,6 +137,9 @@ const CreateExerciseForm = (props) => {
           <textarea
             className=""
             name="description"
+            onChange={onChangeHandlerDesc}
+            onBlur={onBlurHandlerDesc}
+            value={description}
             placeholder="Gains made"
           />
         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /*
   This works with an Input field.
@@ -10,6 +10,13 @@ const useInput = (defaultValue) => {
   const [isTouched, setTouched] = useState(false);
   const [isValid, setValid] = useState(false);
   const [error, setError] = useState(false);
+
+//Ensure that if we are editing, not creating, an exercise 
+// the form's submit button will not be disabled
+useEffect( () => {
+  if (defaultValue !== "")
+    setValid(true)
+}, [defaultValue]);
 
     const onBlurHandler = () => {
         setTouched(true);

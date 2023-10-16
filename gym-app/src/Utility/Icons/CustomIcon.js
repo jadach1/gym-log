@@ -17,7 +17,7 @@ const CustomIcon = (props) => {
   }
   return (
     <FontAwesomeIcon
-      className="text-center"
+      className={`text-center ${props.className}`}
       icon={`fa-solid ${icon}`}
       size={props.size}
       spin={props.spin}
