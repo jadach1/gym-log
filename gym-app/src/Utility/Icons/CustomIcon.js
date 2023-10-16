@@ -11,6 +11,9 @@ const CustomIcon = (props) => {
     case "edit":
         icon = "fa-pen-to-square";
         break;
+    case "user":
+        icon = "fa-user";
+        break;
     default:
       icon = "fa-spinner";
       break;

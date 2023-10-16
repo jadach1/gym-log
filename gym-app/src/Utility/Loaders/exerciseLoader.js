@@ -1,11 +1,7 @@
 import { api_url } from "../API";
 export async function exerciseLoader({request, params}) {
-    console.log(params)
-
-    console.log("id " + params.id)
 
     const url = api_url + "/getExercise/" + params.id;
-    console.log(url)
     try {
         const response = await fetch(url, {
             method: "get",
@@ -18,8 +14,7 @@ export async function exerciseLoader({request, params}) {
             throw new Response("Error upon fetching exercise data", {status: response.status},{statusText: response.statusText})
     
         const data = await response.json();
-
-        console.log(data)
+        
         return data;
     } catch (error) {
         throw new Response("Error upon fetching exercise data", {status: 500},{statusText: error})
