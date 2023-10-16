@@ -11,6 +11,7 @@ exports.createSet = async (req, res, next) => {
   //convert date from milliseconds to string
   const workout = {
     bodypart: req.body.bodypart,
+    // We are adding this number to date because for some reason it always is a day behind, or a few hours
     date: new Date(+req.body.date + 10000000).toISOString().split("T")[0],
     exercise: req.body.exercise,
     weight: req.body.weight,
@@ -62,12 +63,20 @@ exports.getExercises = async (req, res, next) => {
   //Build a query
   exercise != "all" ? query.exercise = exercise:"";
   //convert date from milliseconds to string
-  date != "all" ? query.date = new Date(+date).toISOString().split("T")[0]:"";
+  date != "all" ? query.date = new Date(+date + 10000000).toISOString().split("T")[0]:"";
   bodyPart != "all" ? query.bodypart = bodyPart:"";
 
   try {
     console.log(query)
     const response = await USER.getExercises(query,sort);
+    console.log(response)
+    if(response){
+      response.forEach(element => {
+        element.bodypart = element.bodypart.toUpperCase();
+        element.exercise = element.exercise.toUpperCase();
+      });
+    }
+   
     res.status(201).json(response);
   } catch (error) {
     console.log(error);
