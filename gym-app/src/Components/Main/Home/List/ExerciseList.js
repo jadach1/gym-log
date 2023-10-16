@@ -56,8 +56,8 @@ const ExerciseList = (props) => {
 
   return (
     <>
-      <Container className="d-flex justify-content-center">
-        <Accordion  className="w-75 bg-dark border border-5 border-success rounded-4 row mb-3 text-center " >
+      <div className="d-flex justify-content-center">
+        <Accordion  className="bg-dark border border-5 border-success rounded-4 row mb-3 text-center " >
           <Accordion.Item className="bg-dark p-0"  eventKey="0">
             <Accordion.Header className="d-flex justify-content-center" ><strong>Filters</strong></Accordion.Header>
             <Accordion.Body className="bg-dark">
@@ -72,7 +72,7 @@ const ExerciseList = (props) => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-      </Container>
+      </div>
       <EditFormModal  exercise={myExercise} animation={true} show={editModalShow} onHide={() => setEditModalShow(false)} />
       <ConfirmModal   show={confirmModalShow} onConfirm={onConfirmToDelete} onClose={() => {setConfirmModalShow(false)}}/>
       

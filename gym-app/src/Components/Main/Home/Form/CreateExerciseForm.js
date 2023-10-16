@@ -71,7 +71,7 @@ const CreateExerciseForm = (props) => {
   }, [actionData]);
 
   return (
-    <Container className="border border-success p-3 rounded-3">
+    <div className="border border-success p-3 rounded-3">
     
       <h3 className="text-success text-center">New Work Out</h3>
       <Form method="post" id="form">
@@ -92,10 +92,10 @@ const CreateExerciseForm = (props) => {
         />
 
         {/* EXERCISE */}
-        <div className="row my-3">
-          <label className="text-white">Exercise</label>
           <Input
             className="mt-2 text-dark"
+            label="Exercise"
+            labelColor="text-white"
             onBlurHandler={onBlurHandlerEx}
             onChangeHandler={onChangeHandlerEx}
             error={errorEx}
@@ -106,13 +106,13 @@ const CreateExerciseForm = (props) => {
               value: exercise,
             }}
           />
-        </div>
 
         {/* WEIGHT */}
         <div className="row">
-          <label className="text-white">Weight</label>
           <Input
             className="mt-2 text-dark"
+            label="Weight"
+            labelColor="text-white"
             onBlurHandler={onBlurHandlerWe}
             onChangeHandler={onChangeHandlerWe}
             error={errorWe}
@@ -154,7 +154,7 @@ const CreateExerciseForm = (props) => {
           </button>
         </div>
       </Form>
-    </Container>
+    </div>
   );
 };
 
