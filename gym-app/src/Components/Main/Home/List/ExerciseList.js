@@ -3,7 +3,6 @@ import { useContext,  useState } from "react";
 // React Router
 import { useLoaderData, Form} from "react-router-dom";
 //Bootstrap
-import Container from "react-bootstrap/esm/Container";
 import Card from "react-bootstrap/esm/Card";
 import Accordion from "react-bootstrap/Accordion"
 
@@ -30,12 +29,10 @@ const ExerciseList = (props) => {
   const [listOfExercises, setExercises] = useState(Array.from(new Set(data.map(e => e.exercise))))
 
   const onClickHandlerLi = (id) => {
-    console.log(    document.getElementById(id).style.display + " blick")
     document.getElementById(id).style.display="flex";
   }
 
   const onBlurHandlerLi = (id) => {
-    console.log(id + " blur")
     document.getElementById(id).style.display="none";
   }
 
@@ -43,11 +40,14 @@ const ExerciseList = (props) => {
   const onConfirmToDelete = (id) => {
     //API call
     DeleteItem(id);
-      /*Find the index in the local data array and remove it*/
-      const index = data.findIndex(
+    /*Find the index in the local data array and remove it*/
+    const index = data.findIndex(
         (element) => element._id === id
       );
+    //It may be better to just manipulate the DOM here then to reassign the array
+    // Delete item from array
     data.splice(index, 1)
+    //Confirmation Message
     toastContext.addMessage("Removed","Successfully Deleted Exercise","danger")
     /*Updating the list of exercises causes the page to render, updating our changes to data */
     setExercises(Array.from(new Set(data.map(e => e.exercise ))));
@@ -57,6 +57,7 @@ const ExerciseList = (props) => {
   return (
     <>
       <div className="d-flex justify-content-center">
+        {/******* FILTERS *******/}
         <Accordion  className="bg-dark border border-5 border-success rounded-4 row mb-3 text-center " >
           <Accordion.Item className="bg-dark p-0"  eventKey="0">
             <Accordion.Header className="d-flex justify-content-center" ><strong>Filters</strong></Accordion.Header>
@@ -77,6 +78,7 @@ const ExerciseList = (props) => {
       <ConfirmModal   show={confirmModalShow} onConfirm={onConfirmToDelete} onClose={() => {setConfirmModalShow(false)}}/>
       
         {
+          /****** LIST OF EXERCISES ******/
           <ul className="">
             {data.map((exercise) => {
               return (

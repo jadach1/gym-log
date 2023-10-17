@@ -6,7 +6,7 @@ const MessagingToastHub = (props) => {
   const toastContext = useContext(ToastContext);
 
   return (
-    <ToastContainer  position="" className="fixed-bottom">
+    <ToastContainer  position="" className="fixed-bottom offset-md-2 offset-lg-4">
       <ul>
         {toastContext.data.map((toast) => {
           return (

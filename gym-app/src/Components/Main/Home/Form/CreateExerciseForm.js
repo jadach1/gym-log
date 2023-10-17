@@ -1,5 +1,5 @@
 //React Imports
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import {
   Form,
   useSubmit,
@@ -10,11 +10,13 @@ import { ToastContext } from "../../../Context/ToasterContextProvider";
 //App Components
 import Input from "../../../UI/Input";
 import SelectionList from "./SelectionList";
-import Container from "react-bootstrap/esm/Container";
 import DateSelector from "../../../UI/DateSelector";
 import useInput from "./Hook/use-input";
+import useSelect from "./Hook/use-select";
+import useDescription from "./Hook/use-description";
 import { randomQuotes } from "../../../UI/Toasts/quotes";
 import { randomColours } from "../../../UI/Toasts/randomColours";
+import { createElement } from "./FormHelper/createElement";
 
 const CreateExerciseForm = (props) => {
   const submit = useSubmit();
@@ -22,9 +24,17 @@ const CreateExerciseForm = (props) => {
   let actionData = useActionData();
   const navigate = useNavigation();
 
-  // Form Variables
-  const [startDate, setStartDate] = useState(new Date());
+  /*** Form Variables ***/ 
+  // Date
+  const [startDate, setStartDate] = useState(props.exercise ? new Date(props.exercise.date) :  new Date());
   
+  // BodyPart
+  const {
+    value: bodypart, 
+    onChangeHandler: onChangeHandlerBp
+  } = useSelect(props.exercise ? (props.exercise.bodypart).toLowerCase() : "");
+
+  // Exercise
   const {
     value: exercise,
     isValid: isValidEx,
@@ -32,55 +42,83 @@ const CreateExerciseForm = (props) => {
     onBlurHandler: onBlurHandlerEx,
     onChangeHandler: onChangeHandlerEx,
     reset: clearExercise
-  } = useInput("");
+  } = useInput(props.exercise ? props.exercise.exercise : "");
 
-    const {
+  // Weight
+  const {
     value: weight,
     isValid: isValidWe,
     error: errorWe,
     onBlurHandler: onBlurHandlerWe,
     onChangeHandler: onChangeHandlerWe,
     reset: clearWeight
-  } = useInput("");
+  } = useInput(props.exercise ? props.exercise.weight : "");
 
+  // Metric
   const {
-    value: description,
-    isValid: isValidDesc,
-    error: errorDesc,
-    onBlurHandler: onBlurHandlerDesc,
+    value: metric, 
+    onChangeHandler: onChangeHandlerMetric
+  } = useSelect(props.exercise ? props.exercise.metric : "");
+
+  // Description
+  const {
+    value: description, 
     onChangeHandler: onChangeHandlerDesc,
     reset: clearDescription
-  } = useInput("");
+  } = useDescription(props.exercise ? props.exercise.description : "");
 
   // Submission HAndler
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    submit(document.getElementById("form"));
+    //Append to the form to tell our action whether 
+    //we are Creating or Editing an Exercise
+      const form = document.getElementById("form");
+      const elementType = createElement("type", props.type);
+      form.appendChild(elementType)
+    if( props.type === "edit"){
+        // Append Exercise ID
+         const elementId = createElement("id",props.exercise._id);
+         form.appendChild(elementId)
+        // Append Exercise ID
+         const elementUser = createElement("user", props.exercise.user);
+         form.appendChild(elementUser)
+    }
+    submit(form);
   };
 
   //Listening for Successful Submissions
   useEffect(() => {
     if (actionData) {
-      const message = randomQuotes();
-      const colour = randomColours();
+      let message = "Successfully Edited Exercise"
+      let colour = "success"
+      if(props.type === "create"){
+        message = randomQuotes();
+        colour = randomColours();
+        clearWeight();
+        clearExercise();
+        clearDescription();
+        document.getElementById("form").removeChild(document.getElementById("type"));
+      } 
       toastContext.addMessage("Success", message, colour);
-       clearWeight();
-       clearExercise();
-       clearDescription();
+      
+      // If we are in the edit modal, we will exit upon submission
+      if(props.type === "edit")
+        props.onHide();
     }
   }, [actionData]);
 
   return (
-    <div className="border border-success p-3 rounded-3">
+    <div className="bg-dark border border-success p-3 rounded-3">
     
       <h3 className="text-success text-center">New Work Out</h3>
-      <Form method="post" id="form">
+      <Form action="" method="post" id="form">
         {/**BODY PART SELECT DROPDOWN */}
         <SelectionList
-          onChangeHandler={(event) => {}}
+          onChangeHandler={onChangeHandlerBp}
           className="my-3"
           label="Body Part"
           name="body-part"
+          value={bodypart}
           values={["chest", "shoulders", "arms", "legs", "back", "other"]}
         />
 
@@ -128,7 +166,11 @@ const CreateExerciseForm = (props) => {
         {/**METRIC */}
         <div className="row my-3">
           <label className="text-white">Metric</label>
-          <SelectionList name="metric" values={["KG", "LB"]} />
+          <SelectionList 
+              name="metric" 
+              onChangeHandler={onChangeHandlerMetric} 
+              value={metric} 
+              values={["KG", "LB"]} />
         </div>
 
         {/* DESCRIPTION */}
@@ -138,7 +180,6 @@ const CreateExerciseForm = (props) => {
             className=""
             name="description"
             onChange={onChangeHandlerDesc}
-            onBlur={onBlurHandlerDesc}
             value={description}
             placeholder="Gains made"
           />

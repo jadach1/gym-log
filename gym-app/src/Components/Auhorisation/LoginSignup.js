@@ -1,8 +1,7 @@
 //React Packages
-import {  useRef, useState, useEffect } from "react";
+import {  useRef, useState, useEffect, useContext } from "react";
 import {
   Form,
-  Link,
   useSubmit,
   useActionData,
   useNavigation,
@@ -16,44 +15,52 @@ import Container from "react-bootstrap/esm/Container";
 import Input from "../UI/Input";
 import ErrorMessage from "../UI/ErrorMessage";
 import CustomIcon from "../../Utility/Icons/CustomIcon";
+import {ToastContext} from "../Context/ToasterContextProvider";
 
-const Login = (props) => {
+const LoginSignup = (props) => {
   
-  const [formValid, setFormValid] = useState(false);
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [formType, setFormType] = useState("Login");
+  
   const submit = useSubmit();
   const actionData = useActionData();
   const navigation = useNavigation();
   const navigate = useNavigate();
+  const toastContext = useContext(ToastContext);
 
   const name = useRef();
   const pword = useRef();
+  const cword = useRef();
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const username = name.current.value;
-    const password = pword.current.value;
-
-    // Check to see if form is valid
-    if (username.trim().length === 0 || password.trim().length === 0) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-    submit(event.currentTarget);
+    /* We will append a new Element to the existing form, 
+    so that the function being called ie the Action will 
+    know whether we are trying to login or signup*/
+      const form = document.getElementById("form");
+      const newInput = document.createElement("input");
+      newInput.setAttribute("type","text");
+      newInput.setAttribute("name","type");
+      newInput.setAttribute("value",formType);
+      form.appendChild(newInput)
+    submit(form);
   };
 
   useEffect(() => {
     if (actionData) {
       console.log(actionData);
-      if (actionData.status === "success") {
-        navigate("/");
-      } else {
-        setError(true);
-        setFormValid(false);
-        setErrorMessage(actionData.error);
+      switch (actionData.status){
+        case "success login":
+          navigate("/");
+          break;
+        case "success signup":
+          toastContext.addMessage("Success","Successfully Signed Up " + name.current.value, "success");
+          break;
+        default:
+          setError(true)
+          setErrorMessage(actionData.error);
+          break;
       }
     }
   }, [actionData]);
@@ -63,19 +70,25 @@ const Login = (props) => {
     setError(false);
   };
 
+  const onClickFormHandler = () => { setFormType(old => {
+    setError(false);
+    if(old === "Login" ) return "Signup"; 
+    return "Login"
+  })}
+
   const form = (
     <>
       <div className="justify-content-center d-flex">
-        <Link to="/signup" className="row btn btn-outline-success ">
-          Signup
-        </Link>
+        <button onClick={onClickFormHandler} className="row btn btn-outline-success ">
+           {formType === "Login" ? "Signup" : "Login"}
+        </button>
       </div>
       {/*HEADER */}
       <h2 id="jacob" className="my-3 text-success text-center">
-        LOGIN FORM
+          {formType.toUpperCase()}
       </h2>
       {/*FORM BELOW */}
-      <Form method="post" className="text-center justify-content-center d-grid">
+      <Form id="form" method="post" className="text-center justify-content-center d-grid">
         <div onClick={onBlurHandler}>
           <Input
             className="mt-2"
@@ -86,6 +99,7 @@ const Login = (props) => {
               name: "username",
               id: "username",
               required: true,
+              defaultValue: ""
             }}
           />
           <Input
@@ -97,8 +111,22 @@ const Login = (props) => {
               name: "password",
               id: "password",
               required: true,
+              defaultValue: ""
             }}
           />
+         { formType === "Signup" && <Input
+            className="mt-2"
+            label="password"
+            ref={cword}
+            input={{
+              type: "password",
+              name: "confirmPassword",
+              id: "cpassword",
+              required: true,
+              placeholder: "confirm password",
+              defaultValue: ""
+            }}
+          /> }
           {isError && (
             <ErrorMessage
               className="my-2 rounded 3"
@@ -130,4 +158,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default LoginSignup;

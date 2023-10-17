@@ -1,14 +1,14 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 // components
-import Login from "./Components/Auhorisation/Login";
+import LoginSignup from "./Components/Auhorisation/LoginSignup";
 import Main from "./Components/Main/Main";
-import Signup from "./Components/Auhorisation/Signup";
 import ErrorPage from "./Components/Error/Error";
 import Home from "./Components/Main/Home/Home";
 import CreateExerciseForm from "./Components/Main/Home/Form/CreateExerciseForm";
 import ExerciseList from "./Components/Main/Home/List/ExerciseList";
 import ToasterContextProvider from "./Components/Context/ToasterContextProvider";
+import MessagingToastHub from "./Components/UI/Toasts/MessagingToastHub";
 
 //Bootstrap
 import Container from "react-bootstrap/esm/Container";
@@ -21,16 +21,13 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 // Utility Functions
 import { checkAuthToken } from "./Utility/Actions/authorisation_token";
-import { action as loginAction } from "./Utility/Actions/authorisation_login";
-import { action as signupAction } from "./Utility/Actions/authorisation_signup";
+import { action as loginSignupAction } from "./Utility/Actions/authorisation_login_signup";
 import { action as logoutAction } from "./Utility/Actions/authorisation_logout";
-import { action as newExerciseAction} from "./Utility/Actions/newExercise_action";
+import { action as exerciseAction} from "./Utility/Actions/exerciseAction";
 import { listLoader } from "./Utility/Loaders/listLoader";
-import { editExerciseAction } from "./Utility/Actions/editExerciseAction";
 //Styles
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MessagingToastHub from "./Components/UI/Toasts/MessagingToastHub";
 
 
 
@@ -43,8 +40,8 @@ const router = createBrowserRouter([
     loader: checkAuthToken,
     errorElement: <ErrorPage />,
     children: [{ path: "/home", element: <Home />, children: [
-      {path: "newExercise", element: <CreateExerciseForm />, action: newExerciseAction },
-      {path: "list", element: <ExerciseList />, loader: listLoader, action: editExerciseAction, errorElement: <ErrorPage />, 
+      {path: "newExercise", element: <CreateExerciseForm type="create"/>, action: exerciseAction },
+      {path: "list", element: <ExerciseList />, loader: listLoader, action: exerciseAction, errorElement: <ErrorPage />, 
               children: [{
                   path: ':filter', element: <ExerciseList />, loader: listLoader},
                 ]}
@@ -52,11 +49,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
-    action: loginAction,
+    element: <LoginSignup />,
+    action: loginSignupAction,
     errorElement: <ErrorPage />,
   },
-  { path: "/signup", element: <Signup />, action: signupAction },
   { path: "/logout", action: logoutAction, errorElement: <ErrorPage /> },
 ]);
 

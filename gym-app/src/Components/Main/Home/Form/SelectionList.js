@@ -6,15 +6,14 @@ import FormSelect from "react-bootstrap/FormSelect";
 / We also pass an onChangeHandler from the parent, if necessary
 */
 const SelectionList = (props) => {
-  
   return (
     <div className={props.className}>
       {props.label && <label className="text-white">{props.label}</label>}
       <FormSelect
-        onChange={(event) => {}}
+        onChange={props.onChangeHandler}
         aria-label="Selection menu"
         name={props.name}
-        defaultValue={props.defaultValue}
+        defaultValue={props.value}
       >
        {props.defaultMessage && <option value="">{props.defaultMessage}</option>}
         {props.values.map((val) => {
