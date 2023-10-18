@@ -6,7 +6,7 @@ export function createSessionLocal(username, level) {
     // Set local storage for username, level and expiration after successful login
     localStorage.setItem('username',username);
     const expiration = new Date();
-    expiration.setHours(expiration.getHours() + 1);
+    expiration.setHours(expiration.getHours() + 6);
     localStorage.setItem('expiration',expiration.toISOString());
     localStorage.setItem('level', level);
 }

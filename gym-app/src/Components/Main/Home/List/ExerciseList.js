@@ -76,10 +76,9 @@ const ExerciseList = (props) => {
       </div>
       <EditFormModal  exercise={myExercise} animation={true} show={editModalShow} onHide={() => setEditModalShow(false)} />
       <ConfirmModal   show={confirmModalShow} onConfirm={onConfirmToDelete} onClose={() => {setConfirmModalShow(false)}}/>
-      
         {
           /****** LIST OF EXERCISES ******/
-          <ul className="">
+          <ul>
             {data.map((exercise) => {
               return (
                 <li key={exercise._id} tabIndex={0} onFocus={() => onClickHandlerLi(exercise._id)} onBlur={() => onBlurHandlerLi(exercise._id)}>

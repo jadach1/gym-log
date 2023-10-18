@@ -1,5 +1,5 @@
 //React Imports
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Form,
   useSubmit,
@@ -88,7 +88,8 @@ const CreateExerciseForm = (props) => {
 
   //Listening for Successful Submissions
   useEffect(() => {
-    if (actionData) {
+    console.log(document.getElementById("form"))
+    if (actionData && navigate.state === "loading") {
       let message = "Successfully Edited Exercise"
       let colour = "success"
       if(props.type === "create"){
@@ -97,6 +98,7 @@ const CreateExerciseForm = (props) => {
         clearWeight();
         clearExercise();
         clearDescription();
+        //Remove the element we added to the form
         document.getElementById("form").removeChild(document.getElementById("type"));
       } 
       toastContext.addMessage("Success", message, colour);
@@ -105,7 +107,7 @@ const CreateExerciseForm = (props) => {
       if(props.type === "edit")
         props.onHide();
     }
-  }, [actionData]);
+  }, [actionData, navigate.state]);
 
   return (
     <div className="bg-dark border border-success p-3 rounded-3">
