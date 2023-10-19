@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "SET NODE_ENV=development&&SET MONGO_USER=root&&SET MONGO_P=root&&node server.js",
+    "start:dev": "nodez app.js"
   },
   "author": "",
   "license": "ISC",

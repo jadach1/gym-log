@@ -8,8 +8,9 @@ const exerciseRouter = require("../server/routers/exercise-routes");
 const { connectToDB } = require("./db");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+
 const store = new MongoDBStore({
-  uri: "mongodb+srv://root:root@cluster0.iyyptri.mongodb.net/",
+  uri: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_P}@cluster0.iyyptri.mongodb.net/`,
   databaseName: 'gym',
   collection: 'sessions',
 });
@@ -42,8 +43,9 @@ app.use(exerciseRouter);
 // Initial Connection
 connectToDB((db) => {
   //console.log("Db", db);
-  app.listen(8080, console.log("server running"));
+  app.listen(process.env.PORT || 8080, console.log("server running"));
 })
   .then(console.log("listening further"))
-  .catch((err) => console.dir(err));
+  .catch((err) => console.dir(err))
+  
 
