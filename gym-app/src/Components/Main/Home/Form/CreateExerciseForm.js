@@ -88,8 +88,7 @@ const CreateExerciseForm = (props) => {
 
   //Listening for Successful Submissions
   useEffect(() => {
-    console.log(document.getElementById("form"))
-    if (actionData && navigate.state === "loading") {
+    if (navigate.state === "submitting") {
       let message = "Successfully Edited Exercise"
       let colour = "success"
       if(props.type === "create"){
@@ -112,7 +111,7 @@ const CreateExerciseForm = (props) => {
   return (
     <div className="bg-dark border border-success p-3 rounded-3">
     
-      <h3 className="text-success text-center">New Work Out</h3>
+      {props.type === "create" && <h3 className="text-success text-center">New Work Out</h3>}
       <Form action="" method="post" id="form">
         {/**BODY PART SELECT DROPDOWN */}
         <SelectionList

@@ -15,7 +15,6 @@ export async function listLoader({request}) {
     // build url
     let url = api_url + "/exercises/"+exercise+"/"+bodyPart+"/"+date+"/"+sortBy;
 
-    console.log(url)
     try {
         const response = await fetch(url, {
             method: "get",

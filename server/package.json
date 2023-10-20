@@ -5,9 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "SET NODE_ENV=development&&SET MONGO_USER=root&&SET MONGO_P=root&&node server.js",
+    "start": "SET NODE_ENV=development&&SET MONGO_USER=root&&SET MONGO_P=W5eBo9yx02B3tbKh&&node server.js",
     "start:dev": "nodez app.js"
   },
+  "engines": {"node": "18.8.0"},
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -16,7 +17,9 @@
     "connect-mongodb-session": "^3.1.1",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.1",
-    "mongodb": "^5.6.0"
+    "mongodb": "^5.6.0",
+    "morgan": "^1.10.0"
   }
 }

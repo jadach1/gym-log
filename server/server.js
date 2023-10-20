@@ -1,8 +1,12 @@
+const path = require('path');
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const userRouter = require("../server/routers/user-routes");
 const exerciseRouter = require("../server/routers/exercise-routes");
+const helmet = require('helmet')
+const fs = require('fs')
+const morgan = require('morgan')
 
 // Session and MongoDB
 const { connectToDB } = require("./db");
@@ -15,9 +19,15 @@ const store = new MongoDBStore({
   collection: 'sessions',
 });
 
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet());
 app.use(bodyParser.json());
-//app.use(express.static(path.join(__dirname, 'public')));
+
+//Managing Logging
+const accessLogStream = fs.createWriteStream(
+  'publicMenace/access.log', {flags: "a"}
+)
+app.use(morgan('combined', {stream: accessLogStream}));
 
 // Headers for CORS
 app.use((req, res, next) => {
