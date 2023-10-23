@@ -133,3 +133,6 @@ dist
 #Misc
 ToDo.txt
 .gitignore
+
+.firebaserc
+firebase.json
