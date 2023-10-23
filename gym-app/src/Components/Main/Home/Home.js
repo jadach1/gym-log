@@ -24,7 +24,7 @@ const Home = (props) => {
 
   return (
     <Container className="p-3">
-      <Container className="p-5 mb-4 bg-dark rounded-3">
+      <div className="p-5 mb-4 bg-dark rounded-3">
         <h1 className="header text-center text-success">Workouts</h1>
         <div className="row my-5 d-flex justify-content-center">
           <button
@@ -39,7 +39,7 @@ const Home = (props) => {
         <Outlet context={flip}></Outlet>
         {flip && <Navigate to="/home/newExercise" />}
         {!flip && <Navigate to="/home/list" />}
-      </Container>
+      </div>
     </Container>
   );
 };

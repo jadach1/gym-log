@@ -1,7 +1,7 @@
 // Bootstrap
 import Modal from 'react-bootstrap/Modal'
 //App Components
-import EditExerciseForm from './EditExerciseForm';
+import CreateExerciseForm from './CreateExerciseForm';
 
 const EditFormModal = (props) => {
     
@@ -11,7 +11,7 @@ const EditFormModal = (props) => {
                 <Modal.Title className='text-success'>Modify Exercise</Modal.Title>
             </Modal.Header>
             <Modal.Body className='bg-light'>
-                <EditExerciseForm  exercise={props.exercise} />
+                <CreateExerciseForm onHide={props.onHide} type="edit" exercise={props.exercise} />
             </Modal.Body>
             <Modal.Footer className='bg-light'>
                 <button onClick={props.onHide} className='btn btn-rounded btn-success'>Close</button>

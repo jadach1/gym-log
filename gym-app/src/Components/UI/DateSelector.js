@@ -11,6 +11,7 @@ const DateSelector = (props) => {
         <div className="row">
         <label className="bg-dark text-white">Date</label>
         <DatePicker
+          className="w-100"
           name={props.name}
           selected={props.startDate}
           onChange={props.onChangeHandler}

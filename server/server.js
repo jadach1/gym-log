@@ -1,22 +1,33 @@
+const path = require('path');
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const userRouter = require("../server/routers/user-routes");
 const exerciseRouter = require("../server/routers/exercise-routes");
+const helmet = require('helmet')
+const fs = require('fs')
+const morgan = require('morgan')
 
 // Session and MongoDB
 const { connectToDB } = require("./db");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+
 const store = new MongoDBStore({
-  uri: "mongodb+srv://root:root@cluster0.iyyptri.mongodb.net/",
+  uri: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_P}@cluster0.iyyptri.mongodb.net/`,
   databaseName: 'gym',
   collection: 'sessions',
 });
 
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet());
 app.use(bodyParser.json());
-//app.use(express.static(path.join(__dirname, 'public')));
+
+//Managing Logging
+const accessLogStream = fs.createWriteStream(
+  'publicMenace/access.log', {flags: "a"}
+)
+app.use(morgan('combined', {stream: accessLogStream}));
 
 // Headers for CORS
 app.use((req, res, next) => {
@@ -42,8 +53,9 @@ app.use(exerciseRouter);
 // Initial Connection
 connectToDB((db) => {
   //console.log("Db", db);
-  app.listen(8080, console.log("server running"));
+  app.listen(process.env.PORT || 8080, console.log("server running"));
 })
   .then(console.log("listening further"))
-  .catch((err) => console.dir(err));
+  .catch((err) => console.dir(err))
+  
 

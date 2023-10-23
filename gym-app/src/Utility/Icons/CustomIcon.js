@@ -11,13 +11,16 @@ const CustomIcon = (props) => {
     case "edit":
         icon = "fa-pen-to-square";
         break;
+    case "user":
+        icon = "fa-user";
+        break;
     default:
       icon = "fa-spinner";
       break;
   }
   return (
     <FontAwesomeIcon
-      className="text-center"
+      className={`text-center ${props.className}`}
       icon={`fa-solid ${icon}`}
       size={props.size}
       spin={props.spin}

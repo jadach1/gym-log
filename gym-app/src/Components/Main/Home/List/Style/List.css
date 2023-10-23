@@ -1,0 +1,55 @@
+
+
+
+/*SMALL SCREENS, PHONES*/
+@media (max-width: 600px) {
+    li {
+        background-color: gold;
+        max-height: 300px;
+    }
+
+    li:hover{
+        max-height: 100%;
+        transform: scale(1.2);
+        z-index: 1;
+        position: relative;
+    }
+
+    li:focus {
+        outline: 3px dashed gold;
+    }
+
+    span {
+        display: none;
+    }
+
+    ul {
+        display: inline;
+    }
+}
+
+/*OTHER SCREEN SIZES BESIDES PHONES*/
+@media (min-width: 601px) {
+    ul { 
+        display: grid;
+        justify-content: center;
+    }
+
+    li:hover {
+        transform: scale(1.2);
+        z-index: 1;
+        position: relative;
+    }
+
+    li:focus {
+        outline: 3px dashed gold;
+    }
+
+    .hover-double{
+        transform: scale(2);
+    }
+
+    span {
+        display: none;
+    }
+}
