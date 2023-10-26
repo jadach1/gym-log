@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "SET NODE_ENV=development&&SET MONGO_USER=root&&SET MONGO_P=W5eBo9yx02B3tbKh&&node server.js",
+    "start": "SET NODE_ENV=development&&SET MONGO_USER=root&&SET MONGO_P=W5eBo9yx02B3tbKh&&SET PRIVATEKEY=./keys/server.key&&SET CERTIFICATE=./keys/server.cert&&node server.js",
     "start:dev": "nodez app.js"
   },
   "engines": {"node": "18.8.0"},

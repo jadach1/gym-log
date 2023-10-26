@@ -28,7 +28,7 @@ exports.createSet = async (req, res, next) => {
 
 /*EDIT AN EXERCISE */
 exports.editSet = async(req,res)=> {
-
+  
    //convert date from milliseconds to string
    const workout = {
     bodypart: req.body.bodypart,
