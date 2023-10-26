@@ -11,9 +11,9 @@ export async function listLoader({request}) {
     //if date is not all convert to milliseconds
     if(date !== "all")
         date = new Date(date).getTime();
-
+    
     // build url
-    let url = api_url + "/exercises/"+exercise+"/"+bodyPart+"/"+date+"/"+sortBy;
+    let url = api_url + "/exercises/"+exercise.toLowerCase()+"/"+bodyPart.toLowerCase()+"/"+date+"/"+sortBy;
 
     try {
         const response = await fetch(url, {

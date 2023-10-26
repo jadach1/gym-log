@@ -7,12 +7,14 @@ const exerciseRouter = require("../server/routers/exercise-routes");
 const helmet = require('helmet')
 const fs = require('fs')
 const morgan = require('morgan')
+const https = require('node:https');
 
 // Session and MongoDB
 const { connectToDB } = require("./db");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
+//Logging 
 const store = new MongoDBStore({
   uri: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_P}@cluster0.iyyptri.mongodb.net/`,
   databaseName: 'gym',
@@ -24,10 +26,10 @@ app.use(helmet());
 app.use(bodyParser.json());
 
 //Managing Logging
-const accessLogStream = fs.createWriteStream(
-  'publicMenace/access.log', {flags: "a"}
-)
-app.use(morgan('combined', {stream: accessLogStream}));
+// const accessLogStream = fs.createWriteStream(
+//   'publicMenace/access.log', {flags: "a"}
+// )
+// app.use(morgan('combined', {stream: accessLogStream}));
 
 // Headers for CORS
 app.use((req, res, next) => {
@@ -50,10 +52,19 @@ app.use(
 app.use(userRouter);
 app.use(exerciseRouter);
 
+// SSL/TSL Keys
+const options = {
+  key: fs.readFileSync(process.env.PRIVATEKEY),
+  cert: fs.readFileSync(process.env.CERTIFICATE),
+};
+
+console.log(options);
 // Initial Connection
 connectToDB((db) => {
   //console.log("Db", db);
-  app.listen(process.env.PORT || 8080, console.log("server running"));
+  https.createServer({key: options.key, cert: options.cert}, app)
+  .listen(process.env.PORT || 8080, console.log("server running"));
+  //app.listen(8080,console.log("listening on 8080 http"))
 })
   .then(console.log("listening further"))
   .catch((err) => console.dir(err))

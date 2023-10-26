@@ -88,7 +88,8 @@ const CreateExerciseForm = (props) => {
 
   //Listening for Successful Submissions
   useEffect(() => {
-    if (navigate.state === "submitting") {
+    const rightPlaceFlag = navigate.formAction !== "/logout" ? true : false;
+    if (rightPlaceFlag && navigate.state === "submitting") {
       let message = "Successfully Edited Exercise"
       let colour = "success"
       if(props.type === "create"){

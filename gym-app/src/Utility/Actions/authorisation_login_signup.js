@@ -63,7 +63,7 @@ export async function action({ request }) {
       return { status: "success login" };
     }
 
-    return { status: "success signup" };
+    return { status: "success signup", username: eventData.username };
   } catch (err) {
     return { status: "error", error: err };
   }

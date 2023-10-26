@@ -21,7 +21,7 @@ const LoginSignup = (props) => {
   
   const [isError, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [formType, setFormType] = useState("Login");
+  const [formType, setFormType] = useState(props.formType || "Login");
   
   const submit = useSubmit();
   const actionData = useActionData();
@@ -56,6 +56,8 @@ const LoginSignup = (props) => {
           break;
         case "success signup":
           toastContext.addMessage("Success","Successfully Signed Up " + name.current.value, "success");
+          setFormType("Login");
+          document.getElementById("username").value = actionData.username;
           break;
         default:
           setError(true)
