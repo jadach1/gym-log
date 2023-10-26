@@ -49,7 +49,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginSignup />,
+    element: <LoginSignup formType="Login"/>,
     action: loginSignupAction,
     errorElement: <ErrorPage />,
   },
