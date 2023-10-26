@@ -131,8 +131,8 @@ dist
 .pnp.*
 
 #Misc
+keys
 ToDo.txt
 .gitignore
-
 .firebaserc
 firebase.json

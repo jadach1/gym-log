@@ -1,5 +1,5 @@
 //export const api_url = "http://localhost:8080"
-export const api_url = process.env.NODE_ENV !== "development" ? "https://ec2-13-48-98-104.eu-north-1.compute.amazonaws.com:8080" : "http://localhost:8080"
+export const api_url = process.env.NODE_ENV !== "development" ? "https://ec2-13-48-98-104.eu-north-1.compute.amazonaws.com:8080" : "https://localhost:8080"
 
 console.log(process.env.NODE_ENV);
 //service httpd status || start

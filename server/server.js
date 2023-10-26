@@ -62,9 +62,9 @@ console.log(options);
 // Initial Connection
 connectToDB((db) => {
   //console.log("Db", db);
-  // https.createServer({key: options.key, cert: options.cert}, app)
-  // .listen(process.env.PORT || 8080, console.log("server running"));
-  app.listen(8080,console.log("listening on 8080 http"))
+  https.createServer({key: options.key, cert: options.cert}, app)
+  .listen(process.env.PORT || 8080, console.log("server running"));
+  //app.listen(8080,console.log("listening on 8080 http"))
 })
   .then(console.log("listening further"))
   .catch((err) => console.dir(err))
