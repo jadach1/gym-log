@@ -40,10 +40,10 @@ exports.newUser = (req, res, next) => {
 /**LOG IN METHODS AND SESSION FUNCTIONALITY */
 
 exports.checkIfAuthorised = async (req, res) => {
-  console.log(req.sessionID)
+  console.log("check if authorised " + req.sessionID)
   try {
     const result = await USER.findUserSession(req.sessionID);
-    console.log(result.session.user, result.session.level);
+    console.log("findUserSession " + result.session.user, result.session.level);
     return res.status(254).json({user: result.session.user, level: result.session.level})
   } catch (error) {
     return res.status(422).json({result: "No Session Found"})
@@ -71,9 +71,8 @@ exports.userLogin = async (req, res) => {
               req.session.uid = user._id;
               req.session.user = user.username;
               req.session.level = user.level;
-              req.session.cookie.expires = new Date(Date.now() + 3600000);
-              //const token = jwt.sign({ foo: user.username }, 'shhhhh');
-              //return res.status(201).cookie('loggedin',token,{expires: new Date(Date.now() + 3600000)}).json({ user: user, Token: token });
+              req.session.cookie.expires = new Date(Date.now() + 21600000);
+              console.log(req.session);
               return res.status(201).json({username: user.username,level: user.level})
             } else {
               console.log("password do not match", matchResult, user.password);
