@@ -42,6 +42,12 @@ app.use((req, res, next) => {
 app.use(
   session({ secret: "my secret",  resave: true, saveUninitialized: true, cookie: {secure: true, httpOnly: false}, store: store})
   
+  store.all( (err, sessions) => {
+    if(!err)
+    console.log("active sessions" , sessions)
+  else 
+      console.err(err)
+  })
 );
 
 // Route Handler
