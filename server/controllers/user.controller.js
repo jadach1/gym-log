@@ -40,7 +40,7 @@ exports.newUser = (req, res, next) => {
 /**LOG IN METHODS AND SESSION FUNCTIONALITY */
 
 exports.checkIfAuthorised = async (req, res) => {
-  console.log("check if authorised ", req.session)
+  console.log("check if authorised ", req.session, req.sessionID)
   try {
     const result = await USER.findUserSession(req.sessionID);
     console.log("findUserSession " + result.session.user, result.session.level);
