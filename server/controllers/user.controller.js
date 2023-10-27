@@ -73,6 +73,7 @@ exports.userLogin = async (req, res) => {
               req.session.level = user.level;
               req.session.cookie.httpOnly = false;
               req.session.cookie.expires = new Date(Date.now() + 21600000);
+              req.session.cookie.sameSite = "none"
               console.log(req.session, req.sessionID);
               return res.status(201).json({session: req.session,id: req.sessionID})
             } else {
