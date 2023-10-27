@@ -24,15 +24,10 @@ const store = new MongoDBStore({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 app.use(bodyParser.json());
-
-//Managing Logging
-// const accessLogStream = fs.createWriteStream(
-//   'publicMenace/access.log', {flags: "a"}
-// )
-// app.use(morgan('combined', {stream: accessLogStream}));
-
-// Headers for CORS
+// const accessLogStream = fs.createWriteStream(req.headers.origin);
+                  .url);
 app.use((req, res, next) => {
+   console.log(req);
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
   res.setHeader(
