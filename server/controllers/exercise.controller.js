@@ -67,7 +67,7 @@ exports.getExercises = async (req, res, next) => {
   bodyPart != "all" ? query.bodypart = bodyPart:"";
 
   try {
-    console.log(query)
+    console.log("query",query, req.session, req.sessionID)
     const response = await USER.getExercises(query,sort);
     console.log(response)
     if(response){
