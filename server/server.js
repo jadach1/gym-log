@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 // Session Middleware
 app.use(
-  session({ secret: "my secret", resave: false, saveUninitialized: false, store: store})
+  session({ secret: "my secret", resave: false, saveUninitialized: true, resave: false, cookie: {sercure: true, httpOnly: false}, store: store})
 );
 
 // Route Handler
