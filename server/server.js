@@ -25,9 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 app.use(bodyParser.json());
 // const accessLogStream = fs.createWriteStream(req.headers.origin);
-                  .url);
+                  
 app.use((req, res, next) => {
-   console.log(req);
+   console.log("request ", req.url, req.headers);
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
   res.setHeader(
