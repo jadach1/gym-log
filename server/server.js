@@ -41,7 +41,6 @@ app.use((req, res, next) => {
 // Session Middleware
 app.use(
   session({ secret: "my secret",  resave: true, saveUninitialized: true, cookie: {secure: true, httpOnly: false}, store: store})
-  next();
 );
 
 app.use((req,res,next) => {
