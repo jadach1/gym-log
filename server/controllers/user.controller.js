@@ -74,6 +74,7 @@ exports.userLogin = async (req, res) => {
               req.session.cookie.expires = new Date(Date.now() + 3600000);
               //const token = jwt.sign({ foo: user.username }, 'shhhhh');
               //return res.status(201).cookie('loggedin',token,{expires: new Date(Date.now() + 3600000)}).json({ user: user, Token: token });
+              console.log("returning user " + user.username);
               return res.status(201).json({username: user.username,level: user.level})
             } else {
               console.log("password do not match", matchResult, user.password);
