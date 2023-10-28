@@ -74,8 +74,9 @@ exports.userLogin = async (req, res) => {
               req.session.cookie.httpOnly = false;
               req.session.cookie.expires = new Date(Date.now() + 21600000);
               req.session.cookie.sameSite = "none"
+              req.session.cookie.secure=true;
               console.log(req.session, req.sessionID);
-              return res.status(201).json({session: req.session,id: req.sessionID})
+              return res.status(201).json({username: user.username,level: user.username})
             } else {
               console.log("password do not match", matchResult, user.password);
               return res.status(422).send({error: "Wrong Password"});
