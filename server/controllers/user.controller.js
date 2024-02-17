@@ -40,12 +40,15 @@ exports.newUser = (req, res, next) => {
 /**LOG IN METHODS AND SESSION FUNCTIONALITY */
 
 exports.checkIfAuthorised = async (req, res) => {
+  console.log("trying sessoin")
   console.log(req.sessionID)
   try {
+    console.log("trying sessoin 2")
     const result = await USER.findUserSession(req.sessionID);
     console.log(result.session.user, result.session.level);
     return res.status(254).json({user: result.session.user, level: result.session.level})
   } catch (error) {
+    console.log("trying sessoin 3, failure")
     return res.status(422).json({result: "No Session Found"})
   }
  

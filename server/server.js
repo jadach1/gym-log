@@ -17,6 +17,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 //Logging 
 const store = new MongoDBStore({
   uri: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_P}@cluster0.iyyptri.mongodb.net/`,
+  //uri: `mongodb+srv://root:root@cluster0.iyyptri.mongodb.net/`,
   databaseName: 'gym',
   collection: 'sessions',
 });
@@ -52,19 +53,24 @@ app.use(
 app.use(userRouter);
 app.use(exerciseRouter);
 
+console.log(process.env.PRIVATEKEY);
+console.log(process.env.CERTIFICATE);
+
 // SSL/TSL Keys
 const options = {
-  key: fs.readFileSync(process.env.PRIVATEKEY),
-  cert: fs.readFileSync(process.env.CERTIFICATE),
+ key: fs.readFileSync(process.env.PRIVATEKEY),
+ cert: fs.readFileSync(process.env.CERTIFICATE),
 };
 
-console.log(options);
+
 // Initial Connection
 connectToDB((db) => {
   //console.log("Db", db);
   https.createServer({key: options.key, cert: options.cert}, app)
   .listen(process.env.PORT || 8080, console.log("server running"));
   //app.listen(8080,console.log("listening on 8080 http"))
+  //  https.createServer(app)
+  // .listen(process.env.PORT || 8080, console.log("server running"));
 })
   .then(console.log("listening further"))
   .catch((err) => console.dir(err))
