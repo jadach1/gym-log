@@ -70,7 +70,7 @@ connectToDB((db) => {
   .listen(process.env.PORT || 8080, console.log("server running"));
   //app.listen(8080,console.log("listening on 8080 http"))
   //  https.createServer(app)
-  // .listen(process.env.PORT || 8080, console.log("server running"));
+ // .listen(process.env.PORT || 8080, console.log("server running"));
 })
   .then(console.log("listening further"))
   .catch((err) => console.dir(err))

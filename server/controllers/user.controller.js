@@ -49,7 +49,7 @@ exports.checkIfAuthorised = async (req, res) => {
     return res.status(254).json({user: result.session.user, level: result.session.level})
   } catch (error) {
     console.log("trying sessoin 3, failure")
-    return res.status(422).json({result: "No Session Found"})
+    return res.send({result: "No Session Found"})
   }
  
   
