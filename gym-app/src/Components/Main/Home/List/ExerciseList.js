@@ -27,11 +27,14 @@ const ExerciseList = (props) => {
   const [editModalShow, setEditModalShow] = useState(false);
   const [confirmModalShow,setConfirmModalShow] = useState(false);
   const [listOfExercises, setExercises] = useState(Array.from(new Set(data.map(e => e.exercise))))
+  const [typeOfModal, setTypeOfModal] = useState("");
 
+  // When we "focus on" or click an li element, the display style will change and show the icons
   const onClickHandlerLi = (id) => {
     document.getElementById(id).style.display="flex";
   }
 
+  // Once
   const onBlurHandlerLi = (id) => {
     document.getElementById(id).style.display="none";
   }
@@ -74,7 +77,7 @@ const ExerciseList = (props) => {
           </Accordion.Item>
         </Accordion>
       </div>
-      <EditFormModal  exercise={myExercise} animation={true} show={editModalShow} onHide={() => setEditModalShow(false)} />
+      <EditFormModal modaltype={typeOfModal} exercise={myExercise} animation={true} show={editModalShow} onHide={() => setEditModalShow(false)} />
       <ConfirmModal   show={confirmModalShow} onConfirm={onConfirmToDelete} onClose={() => {setConfirmModalShow(false)}}/>
         {
           /****** LIST OF EXERCISES ******/
@@ -100,8 +103,14 @@ const ExerciseList = (props) => {
                         />
                         <CustomIcon 
                         className="hover-double offset-3"
-                         onClick={ () => { setEditModalShow(true); setExerciseToEdit(exercise)}} 
+                         onClick={ () => { setEditModalShow(true); setExerciseToEdit(exercise); setTypeOfModal("edit")}} 
                          icon="edit" size="xl" />
+
+                        <CustomIcon 
+                        className="hover-double offset-3"
+                         onClick={ () => { setEditModalShow(true); setExerciseToEdit(exercise); setTypeOfModal("new")}} 
+                         icon="new" size="xl" />
+
                       </span>
                     </Card.Body>
                   </Card>

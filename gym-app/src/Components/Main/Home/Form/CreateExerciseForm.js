@@ -23,7 +23,7 @@ const CreateExerciseForm = (props) => {
   const toastContext = useContext(ToastContext);
   let actionData = useActionData();
   const navigate = useNavigation();
-
+  
   /*** Form Variables ***/ 
   // Date
   const [startDate, setStartDate] = useState(props.exercise ? new Date(props.exercise.date) :  new Date());
@@ -103,8 +103,8 @@ const CreateExerciseForm = (props) => {
       } 
       toastContext.addMessage("Success", message, colour);
       
-      // If we are in the edit modal, we will exit upon submission
-      if(props.type === "edit")
+      // If we are in the edit/new modal, we will exit upon submission
+      if(props.type === "edit" || props.type === "new")
         props.onHide();
     }
   }, [actionData, navigate.state]);

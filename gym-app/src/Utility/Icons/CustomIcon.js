@@ -14,6 +14,9 @@ const CustomIcon = (props) => {
     case "user":
         icon = "fa-user";
         break;
+    case "new":
+        icon = "fa-fire-flame-curved";
+        break;
     default:
       icon = "fa-spinner";
       break;

@@ -18,6 +18,8 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import {faFireFlameCurved} from "@fortawesome/free-solid-svg-icons";
+
 
 // Utility Functions
 import { checkAuthToken } from "./Utility/Actions/authorisation_token";
@@ -60,7 +62,7 @@ const router = createBrowserRouter([
 //Component
 function App() {
   // Add Font-Awesome icons to Global App
-  library.add(faSpinner, faTrashCan, faPenToSquare, faUser);
+  library.add(faSpinner, faTrashCan, faPenToSquare, faUser, faFireFlameCurved);
   return (
        <Container className="bg-light mt-5 py-5 rounded-5 border border-success justify-content-center">
        <h1 className="text-center text-success ">-Gym Everything-</h1>
