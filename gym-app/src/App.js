@@ -64,7 +64,6 @@ function App() {
   return (
        <Container className="bg-light mt-5 py-5 rounded-5 border border-success justify-content-center">
        <h1 className="text-center text-success ">-Gym Everything-</h1>
-       <h2>{api_url}</h2>
        <ToasterContextProvider>
         <MessagingToastHub />
         <RouterProvider router={router} />
