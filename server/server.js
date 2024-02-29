@@ -17,7 +17,6 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 //Logging 
 const store = new MongoDBStore({
   uri: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_P}@cluster0.iyyptri.mongodb.net/`,
-  //uri: `mongodb+srv://root:root@cluster0.iyyptri.mongodb.net/`,
   databaseName: 'gym',
   collection: 'sessions',
 });
@@ -46,7 +45,12 @@ app.use((req, res, next) => {
 
 // Session Middleware
 app.use(
-  session({ secret: "my secret", resave: false, saveUninitialized: false, store: store})
+  session({ secret: "my secret", 
+            resave: false, 
+            saveUninitialized: false, 
+            store: store, 
+            cookie: {sameSite: 'none', 
+                     secure: true}})
 );
 
 // Route Handler
@@ -65,11 +69,9 @@ const options = {
 
 // Initial Connection
 connectToDB((db) => {
-  //console.log("Db", db);
   https.createServer({key: options.key, cert: options.cert}, app)
   .listen(process.env.PORT || 8080, console.log("server running"));
-  //app.listen(8080,console.log("listening on 8080 http"))
-  //  https.createServer(app)
+
  // .listen(process.env.PORT || 8080, console.log("server running"));
 })
   .then(console.log("listening further"))

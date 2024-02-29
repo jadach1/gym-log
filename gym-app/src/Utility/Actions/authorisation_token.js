@@ -12,9 +12,13 @@ export async function getAuthTokenFromServer() {
       credentials: "include",
       mode: "cors"
     });
-
+    console.log(response)
     // Check to see if user has a valid session, session will be stored
-    if(!response.ok || response.status === 422) return null;
+    if(!response.ok || response.status === 422) {
+      console.log("failed to get session token")
+      console.log(response)
+      return null;
+    }
     // grab session details
      const user = await response.json();
     // check to see if localstorage persists

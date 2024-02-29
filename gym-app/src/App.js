@@ -25,6 +25,7 @@ import { action as loginSignupAction } from "./Utility/Actions/authorisation_log
 import { action as logoutAction } from "./Utility/Actions/authorisation_logout";
 import { action as exerciseAction} from "./Utility/Actions/exerciseAction";
 import { listLoader } from "./Utility/Loaders/listLoader";
+import { api_url } from "./Utility/API";
 //Styles
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -62,7 +63,8 @@ function App() {
   library.add(faSpinner, faTrashCan, faPenToSquare, faUser);
   return (
        <Container className="bg-light mt-5 py-5 rounded-5 border border-success justify-content-center">
-       <h1 className="text-center text-success ">Gym Everything</h1>
+       <h1 className="text-center text-success ">-Gym Everything-</h1>
+       <h2>{api_url}</h2>
        <ToasterContextProvider>
         <MessagingToastHub />
         <RouterProvider router={router} />
