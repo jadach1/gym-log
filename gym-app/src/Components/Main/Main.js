@@ -16,11 +16,11 @@ const Main = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-     if(!token) {  
+     if(!token || token === undefined) {  
         console.log("nav use effect found no token");
         // navigate('/login');
      } else {
-        console.log("token found")
+        console.log("token found ", token)
         //navigate('/home');
      }
     }, [token]);

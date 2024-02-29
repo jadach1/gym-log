@@ -66,6 +66,7 @@ export async function checkAuthToken() {
   let token = null;
   
   if(!firstCall)
+      // if this is the first call.
       token =  await getAuthTokenFromServer();
   else
       token = getAuthToken();
